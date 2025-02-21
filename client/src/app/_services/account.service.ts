@@ -11,7 +11,7 @@ import { Photo } from '../_models/photo'
 })
 export class AccountService {
 
-  private _key = 'account';
+  private _key = 'account'
   private _baseApiUrl = environment.baseUrl + 'api/account/'
   private _http = inject(HttpClient)
 
@@ -42,9 +42,6 @@ export class AccountService {
 
   // #endregion
 
-
-
-
   // #region login_and_register
 
   async login(loginData: { username: string, password: string }): Promise<string> {
@@ -57,7 +54,8 @@ export class AccountService {
       this.saveDataToLocalStorage()
       return ''
     } catch (error: any) {
-      return error.error?.message
+      console.error('Login error:', error)
+      return error.error?.message || 'An error occurred during login'
     }
   }
 
@@ -71,7 +69,8 @@ export class AccountService {
       this.saveDataToLocalStorage()
       return ''
     } catch (error: any) {
-      return error.error?.message
+      console.error('Registration error:', error)
+      return error.error?.message || 'An error occurred during registration'
     }
   }
 
@@ -96,7 +95,6 @@ export class AccountService {
   async updateProfile(user: User): Promise<boolean> {
     const url = environment.baseUrl + 'api/user/'
     try {
-      // const response = this._http.post<{ user: User, token: string }>(url, user)
       const response = this._http.patch(url, user)
       await firstValueFrom(response)
       const currentData = this.data()
@@ -106,6 +104,7 @@ export class AccountService {
         this.saveDataToLocalStorage()
       }
     } catch (error) {
+      console.error('Update profile error:', error) // Add this line for debugging
       return false
     }
     return true
@@ -113,7 +112,6 @@ export class AccountService {
 
   //#endregion
   //#region Upload photo
-
 
   async setAvatar(photo_id: string): Promise<void> {
     const url = environment.baseUrl + 'api/photo/' + photo_id
@@ -124,20 +122,19 @@ export class AccountService {
       if (user) {
         const photos = user.photos?.map(p => {
           p.is_avatar = p.id === photo_id
-          return p;
+          return p
         })
 
         user.photos = photos
 
         this.setUser(user)
       }
-
-
     } catch (error) {
-      throw new Error("NONOAvatarNOOOOO");
+      console.error('Set avatar error:', error) // Add this line for debugging
+      throw new Error("NONOAvatarNOOOOO")
     }
-
   }
+
   async deletePhoto(photo_id: string): Promise<void> {
     const url = environment.baseUrl + 'api/photo/' + photo_id
     try {
@@ -155,7 +152,8 @@ export class AccountService {
         this.saveDataToLocalStorage()
       }
     } catch (error) {
-      // throw new Error("NO u shoun't Delete this my brother!");
+      console.error('Delete photo error:', error) // Add this line for debugging
+      // throw new Error("NO u shoun't Delete this my brother!")
     }
   }
 
@@ -167,42 +165,6 @@ export class AccountService {
       const response = this._http.post<Photo>(url, formData)
       const photo = await firstValueFrom(response)
       const user = this.data()!.user
-      // if (user) {
-      //   if (!user.photos)
-      //     user.photos = []
-      //   user.photos!.push(photo)
-      //   //update user data in local-storage
-
-      //   const copyData = this.data()
-      //   if (copyData)
-      //     copyData.user = user
-      //   this.data.set(copyData)
-      //   this.saveDataToLocalStorage()
-      //   return true
-      // }
-
-
-
-      //     if (user) {
-      //       if (!user.photos) {
-      //         user.photos = []
-      //       }
-      //       user.photos.push(photo)
-
-      //       const copyData = this.data()
-      //       if (copyData) {
-      //         copyData.user = user
-      //       }
-      //       this.data.set(copyData)
-      //       this.saveDataToLocalStorage()
-      //       return true
-      //     }
-      //   } catch (error) {
-
-      //   }
-      //   return false
-
-
       if (user) {
         if (!user.photos)
           user.photos = []
@@ -211,10 +173,9 @@ export class AccountService {
         return true
       }
     } catch (error) {
-
+      console.error('Upload photo error:', error) // Add this line for debugging
     }
     return false
   }
   //#endregion
-
 }

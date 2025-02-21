@@ -1,9 +1,9 @@
-import Elysia, { error, t } from "elysia";
-import { jwtConfig } from "../configs/jwt.config";
-import { AuthMiddleWare, AuthPayload } from "../middlewares/auth.middleware";
-import { MessageDto, messageModel } from "../types/message.type";
-import mongoose from "mongoose";
-import { Message } from "../models/message.model";
+import Elysia, { error, t } from "elysia"
+import { jwtConfig } from "../configs/jwt.config"
+import { AuthMiddleWare, AuthPayload } from "../middlewares/auth.middleware"
+import { MessageDto, messageModel } from "../types/message.type"
+import mongoose from "mongoose"
+import { Message } from "../models/message.model"
 
 type client = {
     webSocket_id: string,

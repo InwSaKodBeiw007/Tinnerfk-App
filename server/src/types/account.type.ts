@@ -16,6 +16,5 @@ export const AccountDto = new Elysia().model({
     user_and_token: _userAndToken
 })
 
-
 export type register = Static<typeof _register>
 export type login = Static<typeof _login>
