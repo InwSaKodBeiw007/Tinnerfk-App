@@ -1,0 +1,15 @@
+meta {
+  name: upload img
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{tinner_url}}/photo
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  file: @file(D:\TinnerApp\elysia\cld-sample-4.jpg)
+}
