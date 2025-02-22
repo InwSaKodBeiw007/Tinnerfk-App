@@ -3,17 +3,33 @@ import { login, register } from "../types/account.type"
 import { user } from "../types/user.type"
 
 export const AccountService = {
-  async login(username: string, password: string) {
-    const user = await User.findOne({ username })
-    if (!user || !user.comparePassword(password)) {
-      return { success: false, message: "Invalid username or password" }
-    }
-    return { success: true, user }
-  },
+    login: async function (loginData: login): Promise<user> {
+        const user = await User.findOne({ username: loginData.username })
+            .populate("photos")
 
-  async register(username: string, password: string, displayName: string) {
-    const user = new User({ username, password, displayName })
-    await user.save()
-    return { success: true, user }
-  }
+            .populate({
+                path: "following",
+                select: "_id"
+            })
+            .populate({
+                path: "followers",
+                select: "_id"
+            })
+
+            .exec()
+        if (!user)
+            throw new Error("User does not exist")
+        const verifyPassword = await user.verifyPassword(loginData.password)
+        if (!verifyPassword)
+            throw new Error("Password is incorrect")
+        return user.toUser()
+    },
+
+    createNewUser: async function (registerData: register): Promise<user> {
+        const user = await User.findOne({ username: registerData.username }).exec()
+        if (user)
+            throw new Error(`${registerData.username} already exists`)
+        const newUser = await User.createUser(registerData)
+        return newUser.toUser()
+    }
 }
