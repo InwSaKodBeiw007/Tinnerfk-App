@@ -27,7 +27,7 @@ export class FollowingComponent implements OnInit {
 
 
   constructor() {
-    this.following = this.likeService.following
+    this.following = this.likeService.getFollowingSignal()
     // this.paginator = this.likeService.pagaintor
 
   }

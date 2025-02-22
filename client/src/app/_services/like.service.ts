@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { AccountService } from './account.service'
-import { computed, inject, Injectable, signal, Signal } from '@angular/core'
+import { computed, inject, Injectable, signal, Signal, WritableSignal } from '@angular/core'
 import { User } from '../_models/user'
 import { environment } from '../../environments/environment'
 import { default_paginator, Paginator, UserQueryPagination } from '../_helper/Pagination'
@@ -60,6 +60,10 @@ export class LikeService {
       }
     }
     const pagination = type === 'following' ? this.following().pagination : this.followers().pagination
+    if (!pagination) {
+      console.error('Pagination is undefined')
+      return
+    }
     const key = cacheManager.createKey(pagination)
     const cacheData = cacheManager.load(key, type)
     if (cacheData) {
@@ -85,6 +89,21 @@ export class LikeService {
 
   getFollowing() {
     this.getDataFromApi('following')
+  }
+
+  private followingSignal: WritableSignal<Paginator<UserQueryPagination, User>> = signal({
+    pagination: {
+      currentPage: 1,
+      pageSize: 10,
+      length: 0
+    },
+    items: []
+  });
+  // Method to expose the following signal
+
+
+  getFollowingSignal(): WritableSignal<Paginator<UserQueryPagination, User>> {
+    return this.followingSignal;
   }
 }
 
