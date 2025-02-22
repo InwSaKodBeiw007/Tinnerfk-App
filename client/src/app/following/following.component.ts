@@ -32,8 +32,8 @@ export class FollowingComponent implements OnInit {
 
   }
 
-  onSearch() {
-    this.likeService.getFollowing()
+  async onSearch() {
+    await this.likeService.getFollowing();
   }
 
   ngOnInit(): void {
