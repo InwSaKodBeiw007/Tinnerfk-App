@@ -68,7 +68,7 @@ export class LoginComponent {
       this.form.removeControl('looking_for')
     }
   }
-
+  
   async onSubmit() {
     // console.log(this.form.value)
     if (this.mode === 'login') {

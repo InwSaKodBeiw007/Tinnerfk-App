@@ -132,7 +132,7 @@ export class LikeService {
       following.push(target_id)
       user.following = following
     }
-    this.accountService.SetUser(user)
+    this.accountService.setUser(user)
     return user.following.includes(target_id)
   }
   getDataFromApi(type: 'following' | 'followers') {
