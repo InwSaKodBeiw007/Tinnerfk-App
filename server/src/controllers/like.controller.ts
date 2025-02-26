@@ -1,7 +1,6 @@
 import Elysia from "elysia"
 import { AuthMiddleWare, AuthPayload } from "../middlewares/auth.middleware"
 import { UserDto } from "../types/user.type"
-import { PhotoDto } from "../types/photo.type"
 import { LikeService } from "../services/like.service"
 
 export const LikeController = new Elysia({
@@ -26,12 +25,12 @@ export const LikeController = new Elysia({
         body: "target_id"
     })
 
-    .get('/followers', async ({ Auth, query }) => {
+    .get('/follower', async ({ Auth, query }) => {
         const user_id = (Auth.payload as AuthPayload).id
         const user_pagination = await LikeService.getFollowers(user_id, query)
         return user_pagination
     }, {
-        detail: { summary: "Get Followers" },
+        detail: { summary: "Get followers" },
         isSignIn: true,
         query: "pagination",
         response: "users"
@@ -42,7 +41,7 @@ export const LikeController = new Elysia({
         const user_pagination = await LikeService.getFollowing(user_id, query)
         return user_pagination
     }, {
-        detail: { summary: "Get Following" },
+        detail: { summary: "Get following" },
         isSignIn: true,
         query: "pagination",
         response: "users"

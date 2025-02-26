@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2018", // Target version of ECMAScript
+    "module": "commonjs", // Module system to use
+    "strict": true, // Enable strict type checking
+    "esModuleInterop": true, // Enable interop between CommonJS and ES Modules
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true, // Enforce consistent casing in file names
+    "outDir": "./Js", // โฟลเดอร์ที่จะเก็บไฟล์ JS ที่ compile แล้ว
+    "rootDir": "./src" // โฟลเดอร์ต้นทางของ source files
+  },
+  "include": [
+    "src/**/*" // ระบุว่าจะให้ compile ไฟล์จากโฟลเดอร์ไหนบ้าง
+  ],
+  "exclude": [
+    "node_modules" // ไม่ compile ไฟล์ในโฟลเดอร์พวกนี้
+  ]
+}
